@@ -39,7 +39,7 @@ define("SITE_FAVICON" , IMG_DIR . "favicon.png");
 define("SITE_LOGO"    , IMG_DIR . "logo.png");
 
 define("APP_DIR"        , "app/");
-define("SYSTEM_DIR"     , "system/");
+define("CLASSES_DIR"     , "classes/");
 define("HELPERS_DIR"    , "helpers/");
 define("LIBS_DIR"       , "libs/");
 define("CONTROLLERS_DIR", APP_DIR . "controllers/");

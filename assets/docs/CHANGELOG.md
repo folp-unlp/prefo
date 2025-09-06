@@ -19,7 +19,7 @@
 
 ## [1.2.4]
 
-- Se separo el código de inicialización de la aplicación en un archivo **Core.php** dentro de la carpeta _system_ para aislarla de la path de inicio.
+- Se separo el código de inicialización de la aplicación en un archivo **Core.php** dentro de la carpeta _classes_ para aislarla de la path de inicio.
 - Se agregaron distintos estilos css que se pueden elegir como _themes_ dentro de la aplicación.
 
 ## [1.2.0]

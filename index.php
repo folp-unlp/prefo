@@ -10,7 +10,7 @@
  *
  */
 
-require_once 'system/Core.php';
+require_once 'classes/Core.php';
 
 $core_app = new Router;
 $core_app->init();
