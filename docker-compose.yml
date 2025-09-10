@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  # Servidor Web Apache
+  apache:
+    build: ./docker/apache
+    container_name: lamp_apache
+    ports:
+      - "${APACHE_PORT:-80}:80"
+      - "443:443"
+    volumes:
+      - ./project/src:/var/www/html
+    networks:
+      - lamp_network
+    depends_on:
+      - php
+
+  # Servicio PHP-FPM
+  php:
+    build:
+      context: ./docker/php
+      args:
+        - TIMEZONE=${TIMEZONE:-UTC}
+    container_name: lamp_php
+    volumes:
+      - ./project/src:/var/www/html
+    networks:
+      - lamp_network
+    environment:
+      # Las variables de BBDD siguen aquí para el caso remoto
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    # depends_on:
+    #   - mariadb # Descomentar si usas la BBDD local
+
+  # --- Base de Datos MariaDB (Opcional) ---
+  # mariadb:
+  #   image: mariadb:10.6
+  #   container_name: lamp_mariadb
+  #   restart: unless-stopped
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+  #     MARIADB_DATABASE: ${DB_DATABASE:-local_db}
+  #     MARIADB_USER: ${DB_USERNAME:-local_user}
+  #     MARIADB_PASSWORD: ${DB_PASSWORD:-local_pass}
+  #   volumes:
+  #     - mariadb_data:/var/lib/mysql
+  #   networks:
+  #     - lamp_network
+
+networks:
+  lamp_network:
+    driver: bridge
+    
+# Volúmenes persistentes (opcional)
+# volumes:
+#   mariadb_data: # Descomentar si usas la BBDD local

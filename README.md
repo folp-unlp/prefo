@@ -1,24 +1,46 @@
-![Logo](assets/images/favicon.png)
+# Entorno de Desarrollo Docker (Apache + PHP)
 
-# CoreFramework
+Este proyecto proporciona una configuración de Docker lista para usar, ideal para el desarrollo de aplicaciones PHP. Incluye un servidor web **Apache** y un servicio **PHP-FPM**, configurados para conectarse a una base de datos **MariaDB/MySQL remota**.
 
-**CORE es un marco de desarrollo para aplicaciones web escrito en PHP.**
+## Requisitos
 
-## Características
+*   [Docker](https://www.docker.com/get-started)
+*   [Docker Compose](https://docs.docker.com/compose/install/)
 
-- **Poderoso ORM para manejo de datos a travéz de PDO.** Admite MySQL/MariaDB, PostgreSQL, SQLite y MSSQL Server.
-- **Completo sistema de gestión de permisos de usuarios.** Maneja distintos niveles de acceso basado en roles de usuario.
-- **Manejo de sesiones persistentes y cookies.**
-- **Auditoría avanzada de los eventos del usuario.** Registra cada acción y evento del usuario. La ubicación del registro puede almacenarse dentro de la base de datos, en el sistema de archivos o enviado por correo electrónico.
-- **Protección contra ataques CSRF y XSS.** Protegido contra ataques maliciosos a través de token de seguridad validados en el servidor.
-- **Validación del lado del cliente y del servidor.**
-- **Código limpio y estructurado.** Es agnóstico de paradigmas de programación y de estructura modular.
-- **Cumple con el estandar Web.** HTML5, CSS3, ES2019, AJAX.
+## Instalación y Uso
 
-Visite el [registro de cambios](assets/docs/CHANGELOG.md) para ver las últimas actualizaciones.
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone https://github.com/ctrbts/docker_lamp_init.git
+    cd docker_lamp_init
+    ```
 
-### Documentación
+2.  **Configurar el entorno:**
+    Copia el archivo de ejemplo `.env.example` a un nuevo archivo llamado `.env`.
+    ```bash
+    cp .env.example .env
+    ```
+    **Edita el archivo `.env`** y rellena las variables con los datos de tu base de datos remota y la configuración local que desees.
 
-- [Guía de desarrollo](assets/docs/guia_desarrollo.md)
-- [Guía del modelo de datos](assets/docs/guia_db_model.md)
-- [Guía de estilo](assets/docs/guia_estilo.md)
+3.  **Construir y levantar los contenedores:**
+    Este comando construirá las imágenes y lanzará los servicios en segundo plano.
+    ```bash
+    docker compose up -d --build
+    ```
+
+4.  **Coloca tus archivos:**
+    El directorio raíz del servidor web es `project/var/www/`. Coloca allí tu aplicación PHP.
+
+5.  **Verificar la conexión a la base de datos:**
+    Abre tu navegador y visita [http://localhost/test_db.php](http://localhost/test_db.php) (o el puerto que hayas configurado en `APACHE_PORT`). Esta página te indicará si la conexión con tu base de datos remota ha sido exitosa.
+
+## Servicios
+
+*   **`apache`**: Servidor web basado en `httpd:2.4` que expone el puerto 80 (o el que definas en `.env`).
+*   **`php`**: Servicio PHP-FPM basado en `php:8.2-fpm` con la extensión `pdo_mysql` y `xdebug` instaladas.
+
+## Gestión del Entorno
+
+*   **Detener los servicios:** `docker compose down`
+*   **Ver los logs:** `docker compose logs -f`
+*   **Acceder al contenedor de PHP:** `docker compose exec php bash`
